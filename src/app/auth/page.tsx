@@ -38,14 +38,15 @@ const Auth = () => {
 
     const handleOnSubmit = async (e: any) => {
         e.preventDefault();
-        const apiUrl = 'http://localhost:8000';
+        const apiUrl = 'https://devectas.vercel.app';
         const mode = activeTab === 'signup' ? 'register' : 'login';
         const body = {
-            name:formData.name,
+            name: formData.name,
             email: formData.email,
-            password:  formData.password,
+            password: formData.password,
             mode
-        }
+        };
+    
         // Basic validation
         if (!formData.email || !formData.password) {
             toast({
@@ -55,34 +56,55 @@ const Auth = () => {
             });
             return;
         }
+    
         try {
             const res = await axios.post(`${apiUrl}/api/auth`, body);
-            if (res.data.success){
-            toast({
-                title: "Success",
-                description: res.data.message,
-            })
-            const userData = {
-                ...res.data.user, 
-                expiry: new Date().getTime() + 2 * 24 * 60 * 60 * 1000, // 2 days in milliseconds
-            };
-            localStorage.setItem('user', JSON.stringify(userData));
-            setFormData({
-                name: '',
-                email: '',
-                password: '',
-            })
-            router.push('/dashboard')
-            }else{
+    
+            if (res.data.success) {
+                toast({
+                    title: "Success",
+                    description: res.data.message,
+                });
+    
+                const userData = {
+                    ...res.data.user,
+                    expiry: new Date().getTime() + 2 * 24 * 60 * 60 * 1000, // 2 days in milliseconds
+                };
+    
+                localStorage.setItem('user', JSON.stringify(userData));
+                setFormData({
+                    name: '',
+                    email: '',
+                    password: '',
+                });
+    
+                router.push('/dashboard');
+            } else {
                 toast({
                     description: res.data.message,
-                }) 
+                });
             }
         } catch (error:any) {
-            toast({
-                description: `${error.response.data.message}` });
+            if (error.response) {
+                // Server responded with a status code outside of 2xx range
+                toast({
+                    description: error.response.data.message,
+                });
+            } else if (error.request) {
+                // Request made but no response received
+                toast({
+                    variant : 'destructive',
+                    description: "Network error occurred. Please try again later.",
+                });
+            } else {
+                toast({
+                    variant : 'destructive',
+                    description: "An unexpected error occurred. Please try again later."
+                });
+            }
         }
-        }
+    };
+    
 
         const getUserData = () => {
             const user = JSON.parse(localStorage.getItem('user') as any);

@@ -1,11 +1,14 @@
+'use client'
+import Dashboard from '@/components/Dashboard'
+import { withAuth } from '@/components/withAuth'
 import React from 'react'
 
 const page = () => {
-  return (
-    <div>
-      
-    </div>
-  )
+    
+    return (
+        <Dashboard/>
+    )
 }
 
-export default page
+export default withAuth (page)
+

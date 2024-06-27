@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Ubuntu } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/util";
 import NavBar from "@/components/NavBar";
 import { Toaster } from "@/components/ui/toaster";
-
-const inter = Inter({ subsets: ["latin"] });
+const ubuntu = Ubuntu({
+  subsets: ["latin"],
+  weight: ["400", "500", "700"],
+});
 
 export const metadata: Metadata = {
   title: "devecta",
@@ -20,7 +22,7 @@ export default function RootLayout({
 
   return (
     <html lang="en" className="light">
-      <body className={cn('min-h-screen font-sans antialiased grainy',inter.className)}>
+      <body className={cn('min-h-screen font-sans antialiased grainy',ubuntu.className)}>
         <NavBar/>
         {children}
         <Toaster />
