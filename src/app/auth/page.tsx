@@ -85,6 +85,7 @@ const Auth = () => {
                 toast({
                     description: res.data.message,
                 });
+                setIsLoading(false)
             }
         } catch (error:any) {
             if (error.response) {
@@ -92,20 +93,21 @@ const Auth = () => {
                 toast({
                     description: error.response.data.message,
                 });
+                setIsLoading(false)
             } else if (error.request) {
                 // Request made but no response received
                 toast({
                     variant : 'destructive',
                     description: "Network error occurred. Please try again later.",
                 });
+                setIsLoading(false)
             } else {
                 toast({
                     variant : 'destructive',
                     description: "An unexpected error occurred. Please try again later."
                 });
+                setIsLoading(false)
             }
-        }finally{
-            setIsLoading(false)
         }
     };
     
