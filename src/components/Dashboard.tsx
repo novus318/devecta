@@ -9,13 +9,14 @@ import { Button } from './ui/button'
 import Skeleton from './Skeleton'
 
 const Dashboard = () => {
-  const apiUrl = 'https://devectas.vercel.app';
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const [files, setFiles] = useState([])
   const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     getUserData();
   }, [])
+  
   const getUserData = async () => {
     setIsLoading(true)
     const user = JSON.parse(localStorage.getItem('user') as any);

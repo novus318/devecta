@@ -19,7 +19,7 @@ import Spinner from '@/components/Spinner';
 
 
 const Auth = () => {
-    const [isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
     const { toast } = useToast()
     const router = useRouter()
     const [formData, setFormData] = useState({
@@ -41,7 +41,7 @@ const Auth = () => {
     const handleOnSubmit = async (e: any) => {
         setIsLoading(true)
         e.preventDefault();
-        const apiUrl = 'https://devectas.vercel.app';
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL;
         const mode = activeTab === 'signup' ? 'register' : 'login';
         const body = {
             name: formData.name,
@@ -129,7 +129,8 @@ const Auth = () => {
             const user = getUserData();
             if (user) {
                 router.push('/dashboard');
-            }
+            }else
+            setIsLoading(false)
         }, []);
     return (
       <>
