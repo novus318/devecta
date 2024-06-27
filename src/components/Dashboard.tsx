@@ -11,7 +11,7 @@ import Skeleton from './Skeleton'
 const Dashboard = () => {
   const apiUrl = 'https://devectas.vercel.app';
   const [files, setFiles] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     getUserData();

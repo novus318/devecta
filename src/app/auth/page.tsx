@@ -19,7 +19,7 @@ import Spinner from '@/components/Spinner';
 
 
 const Auth = () => {
-    const [isLoading, setIsLoading] = useState(true)
+    const [isLoading, setIsLoading] = useState(false)
     const { toast } = useToast()
     const router = useRouter()
     const [formData, setFormData] = useState({
