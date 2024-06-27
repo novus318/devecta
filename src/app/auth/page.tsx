@@ -15,9 +15,11 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { useToast } from '@/components/ui/use-toast';
 import { useRouter } from 'next/navigation';
+import Spinner from '@/components/Spinner';
 
 
 const Auth = () => {
+    const [isLoading, setIsLoading] = useState(true)
     const { toast } = useToast()
     const router = useRouter()
     const [formData, setFormData] = useState({
@@ -37,6 +39,7 @@ const Auth = () => {
     };
 
     const handleOnSubmit = async (e: any) => {
+        setIsLoading(true)
         e.preventDefault();
         const apiUrl = 'https://devectas.vercel.app';
         const mode = activeTab === 'signup' ? 'register' : 'login';
@@ -77,7 +80,6 @@ const Auth = () => {
                     email: '',
                     password: '',
                 });
-    
                 router.push('/dashboard');
             } else {
                 toast({
@@ -102,6 +104,8 @@ const Auth = () => {
                     description: "An unexpected error occurred. Please try again later."
                 });
             }
+        }finally{
+            setIsLoading(false)
         }
     };
     
@@ -126,7 +130,8 @@ const Auth = () => {
             }
         }, []);
     return (
-        <div className='content-center h-[80vh] px-4'>
+      <>
+      {isLoading ? (<Spinner/>):(  <div className='content-center h-[80vh] px-4'>
             <div className='bg-white max-w-2xl mx-auto justify-center p-4 rounded-lg shadow-md'>
                 <Tabs defaultValue="login" className="p-0 md:p-6" onValueChange={setActiveTab}>
                     <div className='justify-center flex'>
@@ -220,7 +225,9 @@ const Auth = () => {
                     </TabsContent>
                 </Tabs>
             </div>
-        </div>
+        </div>)
+      }
+      </>
     );
 };
 
