@@ -11,7 +11,7 @@ interface PageProps {
   }
 }
 
-const page = ({ params }: PageProps) => {
+const Page = ({ params }: PageProps) => {
   const { pid } = params
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -55,4 +55,4 @@ const page = ({ params }: PageProps) => {
   )
 }
 
-export default page
+export default Page
