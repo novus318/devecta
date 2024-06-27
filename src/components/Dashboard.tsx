@@ -9,7 +9,7 @@ import { Button } from './ui/button'
 import Skeleton from './Skeleton'
 
 const Dashboard = () => {
-  const apiUrl = 'http://localhost:8000';
+  const apiUrl = 'https://devectas.vercel.app';
   const [files, setFiles] = useState([])
   const [isLoading, setIsLoading] = useState(true)
 
