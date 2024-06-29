@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { format } from 'date-fns'
 import { Button } from './ui/button'
 import Skeleton from './Skeleton'
+import { toast } from './ui/use-toast'
 
 const Dashboard = () => {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -21,12 +22,21 @@ const Dashboard = () => {
     setIsLoading(true)
     const user = JSON.parse(localStorage.getItem('user') as any);
     if (user) {
-      const res = await axios.get(`${apiUrl}/api/file/getAllFiles/${user._id}`)
-      if (res.data.success) {
-        setFiles(res.data.files)
+      try {
+        const res = await axios.get(`${apiUrl}/api/file/getAllFiles/${user._id}`)
+        if (res.data.success) {
+          setFiles(res.data.files)
+        }
         setIsLoading(false)
-      }else{
+      } catch (error:any) {
+      toast({
+        variant: 'destructive',
+        title: 'Network Error',
+        description: 'Something went wrong. Please try again',
+      })
         setIsLoading(false)
+        // Optionally, you can set an error state to display a message to the user
+        // setError('Unable to load files. Please check your internet connection and try again.')
       }
     }
   };

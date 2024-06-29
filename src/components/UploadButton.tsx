@@ -114,6 +114,7 @@ if(!key){
                     ):null}
                   </div>
                 ):null}
+                <input {...getInputProps} className='hidden'/>
               </label>
             </div>
           </div>

@@ -19,10 +19,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import SimpleBar from 'simplebar-react'
 import PdfFullScreen from './PdfFullScreen';
 
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-    'pdfjs-dist/build/pdf.worker.min.mjs',
-    import.meta.url,
-).toString();
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.mjs`
 
 interface PdfRendererProps {
     url: string;
@@ -116,6 +113,11 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
                 <SimpleBar autoHide={false} className='max-h-[calc(100vh-10rem)]'>
                     <div ref={ref}>
                         <Document loading={
+                            <div className='flex justify-center'>
+                                <Loader2 className='h-8 w-8 my-24 text-green-600 animate-spin' />
+                            </div>
+                        }
+                        noData={
                             <div className='flex justify-center'>
                                 <Loader2 className='h-8 w-8 my-24 text-green-600 animate-spin' />
                             </div>
