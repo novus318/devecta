@@ -5,6 +5,7 @@ import { cn } from "@/lib/util";
 import NavBar from "@/components/NavBar";
 import { Toaster } from "@/components/ui/toaster";
 import { UserProvider } from "@/context/UserContext";
+import 'simplebar-react/dist/simplebar.min.css'
 const ubuntu = Ubuntu({
   subsets: ["latin"],
   weight: ["400", "500", "700"],
