@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "@/lib/util";
 import NavBar from "@/components/NavBar";
 import { Toaster } from "@/components/ui/toaster";
+import { UserProvider } from "@/context/UserContext";
 const ubuntu = Ubuntu({
   subsets: ["latin"],
   weight: ["400", "500", "700"],
@@ -23,9 +24,11 @@ export default function RootLayout({
   return (
     <html lang="en" className="light">
       <body className={cn('min-h-screen font-sans antialiased grainy',ubuntu.className)}>
+      <UserProvider>
         <NavBar/>
         {children}
         <Toaster />
+        </UserProvider>
         </body>
     </html>
   );

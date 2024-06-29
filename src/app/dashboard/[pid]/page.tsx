@@ -2,7 +2,7 @@
 import ChatWrapper from '@/components/ChatWrapper'
 import PdfRenderer from '@/components/PdfRenderer'
 import axios from 'axios'
-import { notFound } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import React, { useEffect } from 'react'
 
 interface PageProps {
@@ -14,23 +14,21 @@ interface PageProps {
 const Page = ({ params }: PageProps) => {
   const { pid } = params
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-
+const router =useRouter()
   const getFile = async () => {
     try {
       const file = await axios.get(`${apiUrl}/api/file/getFile/${pid}`)
       if (file.data.success) {
         console.log(file.data.file)
       } else
-        notFound()
+       router.push('/404PageNotFound')
     } catch (error: any) {
       if (error.response) {
-        // Server responded with a status code outside of 2xx range
-        notFound()
+       router.push('/404PageNotFound')
       } else if (error.request) {
-        // Request made but no response received
-        notFound()
+       router.push('/404PageNotFound')
       } else {
-        notFound()
+       router.push('/404PageNotFound')
       }
     }
   }

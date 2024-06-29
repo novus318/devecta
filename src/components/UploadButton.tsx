@@ -1,14 +1,42 @@
 'use client'
 import React, { useState } from 'react'
-import { Dialog, DialogContent, DialogTrigger } from './ui/dialog'
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from './ui/dialog'
 import { Button } from './ui/button'
 import Dropzone from 'react-dropzone'
-import { Cloud, File } from 'lucide-react'
+import { Cloud, File, Loader2 } from 'lucide-react'
 import { Progress } from './ui/progress'
+import { useUploadThing } from '@/lib/uploadthing'
+import {  useToast } from './ui/use-toast'
+import axios from 'axios'
+import { useRouter } from 'next/navigation'
 
 const UploadDropzone = () => {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const router = useRouter()
   const [isLoading, setIsLoading] = useState(true)
   const [uploadProgress, setUploadProgress] = useState(0)
+  const { toast } = useToast()
+
+  const {startUpload} = useUploadThing("pdfUploader")
+
+  const startPolling = async (key:any) => {
+    let intervalId:any = null;
+
+    const poll = async () => {
+            const res = await axios.get(`${apiUrl}/api/file/check/${key}`);
+
+            if (!res.data.success) {
+             
+            } else {
+                clearInterval(intervalId); // Stop polling
+                router.push(`/dashboard/${res.data.existingFile._id}`);
+            }
+    };
+    intervalId = setInterval(poll, 200);
+};
+
+
+
 
   const startSimulatedProgress = ()=>{
     setUploadProgress(0)
@@ -25,14 +53,34 @@ setUploadProgress((prevProgress)=>{
   }
   
   return (
-    <Dropzone multiple={false} onDrop={(acceptedFiles) => {
+    <Dropzone multiple={false} onDrop={async(acceptedFiles) => {
       setIsLoading(true)
     const processInterval = startSimulatedProgress()
 
+const res = await startUpload(acceptedFiles)
+if (!res) {
+  return toast({
+    variant : 'destructive',
+    title: "Something went wrong",
+    description: "Please try again later."
+});
+}
 
-    
+const [fileResponse]:any = res
+
+const key =fileResponse?.key
+
+if(!key){
+  return toast({
+    variant : 'destructive',
+    title: "Something went wrong",
+    description: "Please try again later."
+})
+}
+    startPolling(key)
     clearInterval(processInterval)
       setUploadProgress(100)
+
     }}>
       {({ getRootProps, getInputProps, acceptedFiles }) => (
         <section>
@@ -59,8 +107,15 @@ setUploadProgress((prevProgress)=>{
                 {isLoading ? (
                   <div className='w-full mt-4 max-w-xs mx-auto'>
                     <Progress className='h-1 w-full bg-zinc-200' value={uploadProgress}/>
+                    {uploadProgress === 100 ?(
+                      <div className='flex gap-1 items-center justify-center text-sm text-zinc-700 text-center pt-2'>
+                        <Loader2 className='animate-spin h-3 w-3 text-green-500' />
+                      </div>
+                    ):null}
                   </div>
                 ):null}
+
+                <input {...getInputProps()} type="file" id='dropzone-file' className='hidden' />
               </label>
             </div>
           </div>
@@ -84,6 +139,7 @@ const UploadButton = () => {
         </Button>
       </DialogTrigger>
       <DialogContent>
+        <DialogTitle className='hidden'/>
         <UploadDropzone />
       </DialogContent>
     </Dialog>
