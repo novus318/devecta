@@ -1,6 +1,7 @@
 'use client'
-import ChatWrapper from '@/components/ChatWrapper'
+import ChatWrapper from '@/components/chat/ChatWrapper'
 import PdfRenderer from '@/components/PdfRenderer'
+import { withAuth } from '@/components/withAuth'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
@@ -11,7 +12,7 @@ interface PageProps {
   }
 }
 
-const Page = ({ params }: PageProps) => {
+const PageComponent = ({ params }: PageProps) => {
   const { pid } = params
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const router =useRouter()
@@ -48,11 +49,15 @@ const Page = ({ params }: PageProps) => {
           </div>
         </div>
         <div className='shrink-0 flex-[0.75] border-t border-gray-200 lg:w-96 lg:border-l lg:border-t-0'>
-         <ChatWrapper/>
+         <ChatWrapper fileId={file._id} isSubscribed/>
           </div>
       </div>
     </div>
   )
 }
 
+
+const Page = withAuth(({ params }:any) => <PageComponent params={params} />)
+
 export default Page
+

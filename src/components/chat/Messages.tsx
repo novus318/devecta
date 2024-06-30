@@ -1,11 +1,11 @@
 import React from 'react'
 
-const ChatWrapper = () => {
+const Messages = () => {
   return (
     <div>
-      gbdh
+      
     </div>
   )
 }
 
-export default ChatWrapper
+export default Messages

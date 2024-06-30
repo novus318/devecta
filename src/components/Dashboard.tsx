@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import UploadButton from './UploadButton'
 import axios from 'axios'
-import { Ghost, MessageSquare, Plus, TrashIcon } from 'lucide-react'
+import { Ghost, Loader2, MessageSquare, Plus, TrashIcon } from 'lucide-react'
 import Link from 'next/link'
 import { format } from 'date-fns'
 import { Button } from './ui/button'
@@ -13,7 +13,7 @@ const Dashboard = () => {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const [files, setFiles] = useState([])
   const [isLoading, setIsLoading] = useState(false)
-
+  const [isDelLoading, setDelIsLoading] = useState(false)
   useEffect(() => {
     getUserData();
   }, [])
@@ -40,14 +40,14 @@ const Dashboard = () => {
   };
 
   const handleDelete = async(id:any)=>{
-    setIsLoading(true)
+    setDelIsLoading(true)
     if (id) {
       const res = await axios.delete(`${apiUrl}/api/file/deleteFile/${id}`)
       if (res.data.success) {
       getUserData();
-      setIsLoading(false)
+      setDelIsLoading(false)
       }else{
-        setIsLoading(false)
+        setDelIsLoading(false)
       }
     }
   }
@@ -87,9 +87,11 @@ const Dashboard = () => {
                       <MessageSquare className='h-4 w-4'/>
                       mocked
                     </div>
-                   <Button onClick={()=>{handleDelete(file._id)}} size='sm' className='w-full' variant='destructive'>
+                   {isDelLoading ? <Button size='sm' className='w-full' variant='destructive'>
+                    <Loader2 className='h-4 w-4 animate-spin'/>
+                   </Button>:<Button onClick={()=>{handleDelete(file._id)}} size='sm' className='w-full' variant='destructive'>
                     <TrashIcon className='h-4 w-4'/>
-                   </Button>
+                   </Button>}
                   </div>
                 </li>
               ))}
@@ -100,7 +102,7 @@ const Dashboard = () => {
           <div className='mt-16 flex flex-col items-center gap-2'>
             <Ghost className='h-8 w-8 text-zinc-800' />
             <h3 className='font-semibold text-xl'>Empty around here</h3>
-            <p>Let&apos;s upload tour first PDF.</p>
+            <p>Let&apos;s upload your first PDF.</p>
           </div>
         )}
       </div>
