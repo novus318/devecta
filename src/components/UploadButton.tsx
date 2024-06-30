@@ -114,6 +114,12 @@ if(!key){
                     ):null}
                   </div>
                 ):null}
+                   <input
+                {...getInputProps()}
+                type='file'
+                id='dropzone-file'
+                className='hidden'
+              />
               </label>
             </div>
           </div>
