@@ -1,10 +1,11 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import ChatInput from './ChatInput'
 import Messages from './Messages'
 import { ChevronLeft, Loader2, XCircle } from 'lucide-react'
 import Link from 'next/link'
 import { buttonVariants } from '../ui/button'
+import axios from 'axios'
 
 
 interface ChatWrapperProps {
@@ -16,12 +17,32 @@ const ChatWrapper = ({
   fileId,
   isSubscribed,
 }: ChatWrapperProps) => {
-  const [isLoading, setIsLoading] = useState(false)
-  const [data, setData] = useState<any>({
-    status: 'SUCCESS',
-  })
+  const [isLoading, setIsLoading] = useState(true)
+  const [data, setData] = useState<any>({})
   const apiUrl = process.env.NEXT_PUBLIC_API_URL
 
+  const startPolling = async (pid:any) => {
+    let intervalId:any = null;
+    const poll = async () => {
+            const res = await axios.get(`${apiUrl}/api/file//Status/${pid}`);
+console.log(res.data)
+            if (res.data.status === 'SUCCESS' || res.data.status === 'FAILED' || res.data.status === 'PROCESSING'){
+                clearInterval(intervalId);
+                setData(res.data)
+                setIsLoading(false)
+            }else{
+              setData(res.data)
+              setIsLoading(false)
+            }
+    };
+    intervalId = setInterval(poll, 900);
+};
+ 
+useEffect(() => {
+  if(fileId){
+  startPolling(fileId);
+  }
+}, [fileId]);
 
 
   if (isLoading)
@@ -99,7 +120,7 @@ const ChatWrapper = ({
         <div className='flex-1 flex justify-between  flex-col mb-28'>
         <Messages/>
         </div>
-        <ChatInput isDisabled />
+        <ChatInput  />
       </div>
     )
 

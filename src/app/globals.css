@@ -76,3 +76,22 @@
     -webkit-tap-highlight-color: transparent;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   }
+
+  .scrollbar-w-2::-webkit-scrollbar {
+    width: 0.25rem;
+    height: 0.25rem;
+  }
+  
+  .scrollbar-track-green-lighter::-webkit-scrollbar-track {
+    --bg-opacity: 0.5;
+    background-color: #00000015;
+  }
+  
+  .scrollbar-thumb-green::-webkit-scrollbar-thumb {
+    --bg-opacity: 0.5;
+    background-color: #13131374;
+  }
+  
+  .scrollbar-thumb-rounded::-webkit-scrollbar-thumb {
+    border-radius: 7px;
+  }

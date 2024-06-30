@@ -32,7 +32,7 @@ const UploadDropzone = () => {
                 router.push(`/dashboard/${res.data.existingFile._id}`);
             }
     };
-    intervalId = setInterval(poll, 200);
+    intervalId = setInterval(poll, 500);
 };
 
 
