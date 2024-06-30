@@ -35,8 +35,6 @@ const Dashboard = () => {
         description: 'Something went wrong. Please try again',
       })
         setIsLoading(false)
-        // Optionally, you can set an error state to display a message to the user
-        // setError('Unable to load files. Please check your internet connection and try again.')
       }
     }
   };

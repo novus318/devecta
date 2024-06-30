@@ -55,8 +55,9 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
     return (
         <div className='w-full bg-white rounded-md shadow flex flex-col items-center'>
             <div className='h-14 w-full border-b border-zinc-200 flex items-center justify-between px-2'>
-                <div className='flex items-center gap-1.5'>
+                <div className='flex items-center'>
                     <Button variant='ghost' aria-label='previous page'
+                    size='sm'
                         disabled={currPages <= 1}
                         onClick={() => {
                             setCurrPages((prev: any) => (prev - 1 > 1 ? prev - 1 : 1))
@@ -64,19 +65,19 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
                         }}>
                         <ChevronDown className='h-4 w-4' />
                     </Button>
-                    <div className='flex items-center gap-1.5'>
+                    <div className='flex items-center gap-1'>
                         <Input {...register('page')}
                             onKeyDown={(e) => {
                                 if (e.key === 'Enter') {
                                     handleSubmit(handlePageSubmit)()
                                 }
-                            }} className={cn('w-12 h-8', errors.page && 'focus-visible:ring-red-400')} />
+                            }} className={cn('w-9 h-8', errors.page && 'focus-visible:ring-red-400')} />
                         <p className='text-zinc-700 text-sm space-x-1'>
                             <span>/</span>
                             <span>{numPages ?? 'x'}</span>
                         </p>
                     </div>
-                    <Button variant='ghost' aria-label='previous page'
+                    <Button variant='ghost' aria-label='previous page' size='sm'
                         disabled={numPages === undefined || currPages === numPages}
                         onClick={() => {
                             setCurrPages((prev: any) => (prev + 1 > numPages! ? numPages! : prev + 1))
@@ -85,22 +86,22 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
                         <ChevronUp className='h-4 w-4' />
                     </Button>
                 </div>
-                <div className='space-x-2'>
+                <div className=''>
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                            <Button aria-label='zoom' variant='ghost' className='gap-1.5'>
+                            <Button aria-label='zoom' variant='ghost' className='' size='sm'>
                                 <Search className='h-4 w-4' />
                                 {scale * 100}%<ChevronDown className='h-3 w-3 opacity-50' />
                             </Button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent>
+                        <DropdownMenuContent >
                             <DropdownMenuItem onSelect={() => setScale(1)}>100%</DropdownMenuItem>
                             <DropdownMenuItem onSelect={() => setScale(1.5)}>150%</DropdownMenuItem>
                             <DropdownMenuItem onSelect={() => setScale(2)}>200%</DropdownMenuItem>
                             <DropdownMenuItem onSelect={() => setScale(2.5)}>250%</DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
-                    <Button
+                    <Button size='sm'
                         onClick={(prev: any) => setRotation((prev) => prev + 90)}
                         aria-label='rotate 90 degrees' variant='ghost'>
                         <RotateCw className='h-4 w-4' />
