@@ -6,6 +6,8 @@ import { ChevronLeft, Loader2, XCircle } from 'lucide-react'
 import Link from 'next/link'
 import { buttonVariants } from '../ui/button'
 import axios from 'axios'
+import { ChatContextProvider } from './ChatContext'
+import { useUser } from '@/context/UserContext'
 
 
 interface ChatWrapperProps {
@@ -18,6 +20,7 @@ const ChatWrapper = ({
   isSubscribed,
 }: ChatWrapperProps) => {
   const [isLoading, setIsLoading] = useState(true)
+  const {userId} = useUser()
   const [data, setData] = useState<any>({})
   const apiUrl = process.env.NEXT_PUBLIC_API_URL
 
@@ -25,8 +28,7 @@ const ChatWrapper = ({
     let intervalId:any = null;
     const poll = async () => {
             const res = await axios.get(`${apiUrl}/api/file//Status/${pid}`);
-console.log(res.data)
-            if (res.data.status === 'SUCCESS' || res.data.status === 'FAILED' || res.data.status === 'PROCESSING'){
+            if (res.data.status === 'SUCCESS' || res.data.status === 'FAILED'){
                 clearInterval(intervalId);
                 setData(res.data)
                 setIsLoading(false)
@@ -116,12 +118,14 @@ useEffect(() => {
       </div>
     )
     return (
+      <ChatContextProvider fileId={fileId} userId={userId}>
       <div className='relative min-h-full bg-zinc-50 flex divide-y divide-zinc-200 flex-col justify-between gap-2'>
         <div className='flex-1 flex justify-between  flex-col mb-28'>
-        <Messages/>
+        <Messages fileId={fileId}/>
         </div>
         <ChatInput  />
       </div>
+      </ChatContextProvider>
     )
 
 }

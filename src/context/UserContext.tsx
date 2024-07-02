@@ -2,14 +2,14 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
 interface UserContextType {
-  userId: string | null;
-  setUserId: (userId: string | null) => void;
+  userId: string ;
+  setUserId: (userId: string) => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [userId, setUserId] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string>('');
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
