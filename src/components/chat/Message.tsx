@@ -18,6 +18,7 @@ const Message = forwardRef<HTMLDivElement, MessageProps>(
   ({ message, isNextMessageSamePerson }, ref) => {
     return (
       <div
+      key={message._id}
         ref={ref}
         className={cn('flex items-end', {
           'justify-end': message.isUserMessage,
