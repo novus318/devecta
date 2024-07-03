@@ -13,7 +13,7 @@ const Dashboard = () => {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const [files, setFiles] = useState([])
   const [isLoading, setIsLoading] = useState(false)
-  const [isDelLoading, setDelIsLoading] = useState(false)
+  const [deletingFileId, setDeletingFileId] = useState<string | null>(null)
   useEffect(() => {
     getUserData();
   }, [])
@@ -39,15 +39,16 @@ const Dashboard = () => {
     }
   };
 
-  const handleDelete = async(id:any)=>{
-    setDelIsLoading(true)
+  const handleDelete = async(id:any,url:any)=>{
+    setDeletingFileId(id)
     if (id) {
+      await axios.post(`/api/file-delete`,{url})
       const res = await axios.delete(`${apiUrl}/api/file/deleteFile/${id}`)
       if (res.data.success) {
       getUserData();
-      setDelIsLoading(false)
+     setDeletingFileId(id)
       }else{
-        setDelIsLoading(false)
+       setDeletingFileId(id)
       }
     }
   }
@@ -87,11 +88,15 @@ const Dashboard = () => {
                       <MessageSquare className='h-4 w-4'/>
                       mocked
                     </div>
-                   {isDelLoading ? <Button size='sm' className='w-full' variant='destructive'>
-                    <Loader2 className='h-4 w-4 animate-spin'/>
-                   </Button>:<Button onClick={()=>{handleDelete(file._id)}} size='sm' className='w-full' variant='destructive'>
-                    <TrashIcon className='h-4 w-4'/>
-                   </Button>}
+                    {deletingFileId === file._id ? (
+                      <Button size='sm' className='w-full' variant='destructive'>
+                        <Loader2 className='h-4 w-4 animate-spin'/>
+                      </Button>
+                    ) : (
+                      <Button onClick={() => handleDelete(file._id, file.key)} size='sm' className='w-full' variant='destructive'>
+                        <TrashIcon className='h-4 w-4'/>
+                      </Button>
+                    )}
                   </div>
                 </li>
               ))}

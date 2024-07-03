@@ -59,6 +59,7 @@ setUploadProgress((prevProgress)=>{
 
 const res = await startUpload(acceptedFiles)
 if (!res) {
+  console.log(res)
   return toast({
     variant : 'destructive',
     title: "Something went wrong",
