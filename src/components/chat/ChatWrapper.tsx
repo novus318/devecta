@@ -27,7 +27,7 @@ const ChatWrapper = ({
   const startPolling = async (pid:any) => {
     let intervalId:any = null;
     const poll = async () => {
-            const res = await axios.get(`${apiUrl}/api/file//Status/${pid}`);
+            const res = await axios.get(`${apiUrl}/api/file/Status/${pid}`);
             if (res.data.status === 'SUCCESS' || res.data.status === 'FAILED'){
                 clearInterval(intervalId);
                 setData(res.data)
