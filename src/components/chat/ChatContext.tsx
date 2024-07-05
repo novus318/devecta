@@ -54,7 +54,7 @@ const fetchMessages = async () => {
 
 const fetchNextMessages = async () => {
   if (combinedMessages.length === totalCount) return;
-
+  if (combinedMessages.length < 9) return;
   try {
     const nextPage = currentPage + 1;
     const res = await axios.get(`${apiUrl}/api/message/getFileMessages/${userId}/${fileId}?page=${nextPage}`);

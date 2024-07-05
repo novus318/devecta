@@ -80,6 +80,7 @@ const Auth = () => {
                     email: '',
                     password: '',
                 });
+                window.location.reload()
                 router.push('/dashboard');
             } else {
                 toast({

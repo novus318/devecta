@@ -114,7 +114,7 @@ useEffect(()=>{
                   <div
                     key={plan}
                     className={cn(
-                      'relative rounded-2xl bg-white shadow-lg',
+                      'relative rounded-2xl bg-white shadow-lg opacity-40',
                       {
                         'border-2 border-green-600 shadow-green-200':
                           plan === 'Pro',
@@ -231,7 +231,7 @@ useEffect(()=>{
                         <UpgradeButton />
                       ) : (
                         <Link
-                          href='/sign-in'
+                          href='/auth'
                           className={buttonVariants({
                             className: 'w-full',
                           })}>
@@ -240,6 +240,13 @@ useEffect(()=>{
                         </Link>
                       )}
                     </div>
+                    <div className='absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-xl'>
+    <div className='bg-white p-5 rounded-lg shadow-lg'>
+      <h2 className='text-xl font-bold text-green-600'>
+        All plans are free now!
+      </h2>
+    </div>
+  </div>
                   </div>
                 )
               }

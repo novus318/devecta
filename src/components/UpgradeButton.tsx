@@ -6,9 +6,7 @@ import { Button } from './ui/button'
 const UpgradeButton = () => {
 
  const createStripeSession = ()=>{
-    // onSuccess: ({url}:any) => {
-    //   window.location.href = url ?? "/dashboard/billing"
-    // }
+   
   }
 
   return (
