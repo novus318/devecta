@@ -4,6 +4,7 @@ import MaxWidthWrapper from './MaxWidthWrapper'
 import Link from 'next/link'
 import { buttonVariants } from './ui/button'
 import UserAccountNav from './UserAccountNav'
+import MobileNav from './MobileNav'
 
 function NavBar() {
     const [user,setuser]= useState<any>({})
@@ -16,6 +17,7 @@ useEffect(()=>{
     <MaxWidthWrapper>
         <div className='flex h-14 items-center justify-between border-b border-zinc-200'>
 <Link href='/' className='flex z-40 font-bold text-lg'><span className='text-green-600'>de</span>vecta</Link>
+<MobileNav isAuth={!!user}/>
 
         <div className='hidden items-center space-x-4 sm:flex'>
          {!user?._id ? (
