@@ -9,6 +9,7 @@ import { useUploadThing } from '@/lib/uploadthing'
 import {  useToast } from './ui/use-toast'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
+import { stringify } from 'querystring'
 
 const UploadDropzone = () => {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -59,7 +60,7 @@ setUploadProgress((prevProgress)=>{
 
 const res = await startUpload(acceptedFiles)
 if (!res) {
-  console.log(res)
+  console.log(stringify(res))
   return toast({
     variant : 'destructive',
     title: "Something went wrong",

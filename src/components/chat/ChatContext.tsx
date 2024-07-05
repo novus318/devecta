@@ -5,6 +5,7 @@ import { Loader2 } from "lucide-react";
 
 type StreamResponse = {
     addMessage:()=>void,
+    fetchNextMessages:()=>void,
     message:string,
     combinedMessages:any[],
     totalCount:number,
@@ -13,6 +14,7 @@ type StreamResponse = {
 }
 export const ChatContex = createContext<StreamResponse>({
     addMessage:()=>{},
+    fetchNextMessages:()=>{},
     message:'',
     combinedMessages:[],
     totalCount:0,
@@ -32,16 +34,39 @@ const [isLoading,setIsLoading]=useState(false)
 const [totalCount, setTotalCount] = useState(0);
 const [combinedMessages, setCombinedMessages] = useState<any>([]);
 const {toast} =useToast()
+const [currentPage, setCurrentPage] = useState(1);
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-const fetchMessages =async()=>{
-    const res = await axios.get(`${apiUrl}/api/message/getFileMessages/${userId}/${fileId}`)
-    if(res.data.success){
-      setCombinedMessages(res.data.messages)
-      setTotalCount(res.data.totalCount)
-      setIsLoading(false)
+const fetchMessages = async () => {
+  try {
+    const res = await axios.get(`${apiUrl}/api/message/getFileMessages/${userId}/${fileId}`);
+    if (res.data.success) {
+      setCombinedMessages(res.data.messages);
+      setTotalCount(res.data.totalCount);
+      setIsLoading(false);
+      setCurrentPage(1)
     }
-      }
+  } catch (error) {
+    console.error("Error fetching messages:", error);
+    setIsLoading(false);
+  }
+};
+
+const fetchNextMessages = async () => {
+  if (combinedMessages.length === totalCount) return;
+
+  try {
+    const nextPage = currentPage + 1;
+    const res = await axios.get(`${apiUrl}/api/message/getFileMessages/${userId}/${fileId}?page=${nextPage}`);
+    if (res.data.success) {
+      setCombinedMessages((prevMessages:any) => [...prevMessages, ...res.data.messages]);
+      setCurrentPage(nextPage);
+    }
+  } catch (error) {
+    console.error('Error fetching next messages:', error);
+  }
+};
+
       useEffect(()=>{
         if(userId && fileId){
           fetchMessages()
@@ -104,7 +129,7 @@ setMessage(e.target.value)
 
 
 return(
-    <ChatContex.Provider value={{message,addMessage,isLoading,handleInputChange,combinedMessages,totalCount}}>
+    <ChatContex.Provider value={{message,addMessage,fetchNextMessages,isLoading,handleInputChange,combinedMessages,totalCount}}>
         {children}
     </ChatContex.Provider>
 )

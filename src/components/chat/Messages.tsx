@@ -1,21 +1,29 @@
 'use client'
-import { useUser } from '@/context/UserContext'
-import axios from 'axios';
 import { Loader2, MessageSquare } from 'lucide-react';
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, } from 'react'
 import Skeleton from '../Skeleton';
 import Message from './Message';
 import { ChatContex } from './ChatContext';
-
+import { useIntersection} from '@mantine/hooks';
 
 interface MessagesProps{
   fileId:string;
 }
 const Messages = ({fileId}:MessagesProps) => {
-  const {addMessage,handleInputChange,isLoading,message,combinedMessages,totalCount} = useContext(ChatContex
+  const {addMessage,handleInputChange,isLoading,message,fetchNextMessages,combinedMessages,totalCount} = useContext(ChatContex
 
   )
+const lastMessageRef =useRef(null)
+const {ref,entry} =useIntersection({
+  root: lastMessageRef.current,
+  threshold:1
+})
 
+useEffect(() => {
+  if (entry?.isIntersecting) {
+    fetchNextMessages();
+  }
+}, [entry, fetchNextMessages]);
   return (
     <div className='flex max-h-[calc(100vh-3.5rem-7rem)] border-zinc-200 flex-1 flex-col-reverse gap-4 p-3 overflow-y-auto scrollbar-thumb-green scrollbar-thumb-rounded scrollbar-track-green-lighter scrollbar-w-2 scrolling-touch'>
     {combinedMessages && combinedMessages.length > 0 ? (
@@ -27,6 +35,7 @@ const Messages = ({fileId}:MessagesProps) => {
         if (i === combinedMessages.length - 1) {
           return (
             <Message
+            ref={ref}
               message={message}
               isNextMessageSamePerson={
                 isNextMessageSamePerson
