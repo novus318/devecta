@@ -44,7 +44,7 @@ const fetchMessages = async () => {
       setCombinedMessages(res.data.messages);
       setTotalCount(res.data.totalCount);
       setIsLoading(false);
-      setCurrentPage(0)
+      setCurrentPage(1)
     }
   } catch (error) {
     console.error("Error fetching messages:", error);
