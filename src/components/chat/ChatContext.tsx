@@ -44,7 +44,7 @@ const fetchMessages = async () => {
       setCombinedMessages(res.data.messages);
       setTotalCount(res.data.totalCount);
       setIsLoading(false);
-      setCurrentPage(1)
+      setCurrentPage(0)
     }
   } catch (error) {
     console.error("Error fetching messages:", error);
@@ -54,7 +54,7 @@ const fetchMessages = async () => {
 
 const fetchNextMessages = async () => {
   if (combinedMessages.length === totalCount) return;
-  if (combinedMessages.length < 9) return;
+  if (combinedMessages.length < 8) return;
   try {
     const nextPage = currentPage + 1;
     const res = await axios.get(`${apiUrl}/api/message/getFileMessages/${userId}/${fileId}?page=${nextPage}`);

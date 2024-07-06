@@ -14,6 +14,7 @@ const ubuntu = Ubuntu({
 export const metadata: Metadata = {
   title: "devecta",
   description: "I project were it comes for data vectorisation to Make the data more accurately understandable for Artificial intelligence and proccess the data and get responses",
+  keywords:'nizamudheen,Muhammed Nizamudheen,web developer,web development,software,software engineer,devecta,AI,ai,document,pdf ai,summarize document',
 };
 
 export default function RootLayout({
@@ -24,6 +25,19 @@ export default function RootLayout({
 
   return (
     <html lang="en" className="light">
+         <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta property="og:title" content='devecta | ask to PDF AI' />
+        <meta property="og:description" content='I project were it comes for data vectorisation to Make the data more accurately understandable for Artificial intelligence and proccess the data and get responses' />
+        <meta property="og:image" content='https://devecta.vercel.app/opengraph-image.png' />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://devecta.vercel.app" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content='devecta | ask to PDF AI' />
+        <meta name="twitter:description" content='I project were it comes for data vectorisation to Make the data more accurately understandable for Artificial intelligence and proccess the data and get responses' />
+        <meta name="twitter:image" content='https://devecta.vercel.app/opengraph-image.png' />
+      </head>
       <body className={cn('min-h-screen font-sans antialiased grainy',ubuntu.className)}>
       <UserProvider>
         <NavBar/>
